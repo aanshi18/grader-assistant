@@ -1,0 +1,21 @@
+# dependencies
+grader-assistant-frontend/node_modules
+grader-assistant-frontend/.pnp
+grader-assistant-frontend.pnp.js
+
+# testing
+grader-assistant-frontend/coverage
+
+# production
+grader-assistant-frontend/build
+
+# misc
+grader-assistant-frontend/.DS_Store
+grader-assistant-frontend/.env.local
+grader-assistant-frontend/.env.development.local
+grader-assistant-frontend/.env.test.local
+grader-assistant-frontend/.env.production.local
+
+grader-assistant-frontend/npm-debug.log*
+grader-assistant-frontend/yarn-debug.log*
+grader-assistant-frontend/yarn-error.log*
