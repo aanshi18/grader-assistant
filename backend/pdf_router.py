@@ -48,7 +48,7 @@ async def EvaluateAnswer(request: Request):
         return JSONResponse(content={"suggestion": response.suggestion, "correctness_score": response.correctness_score, "ai_generated_prob":plagiarism})
 
 @router.post("/ask_query")
-async def EvaluateAnswer(request: Request):
+async def AskQuery(request: Request):
         body = await request.json()
         question = body.get("question")
         student_answer = body.get("student_answer")
@@ -57,13 +57,11 @@ async def EvaluateAnswer(request: Request):
         if question not in answer_key:
              return JSONResponse(status_code=500, content="Exception: Question does not exist")
 
-        memory_prompt = "Be my assistant evaluator. I am a teacher and need to evaluate student answers. I will give you a pdf, remember that. All the further questions asked will be based on the content of that PDF. Furthermore I will give you the question, tentative answer for the question and the answer given by the student to that question. You need to compare the content of both the answers and then provide me with similarity result of how much similar the student answer is to the answer which I gave. Based on this result, I will evaluate how much marks I need to give to a student.\n" + f"Here is the pdf content:\n{memory}\n" 
+        memory_prompt = "Be my assistant evaluator. I am a teacher and need to answer student's query regarding the question evaluated.I will give you a pdf containing reading materials, remember that." + f"Here is the pdf content:\n{memory}\n" 
 
-        user_prompt = f"This is the input question and correct answer from the professor:\n{question}\n{answer_key[question]}\n" + """Strictly provide me with answer of similarity result in the following format:
-        Correctness score (in a range of 0-1).
-         Suggestion: 2 lines suggestion to student to perform better.""" + f"Student answer: {student_answer}"
+        user_prompt = f"This is the input question and correct answer from the professor:\n{question}\n{answer_key[question]}\n"+ f"Student's answer: {student_answer}\n Now, analyze the reading materials, correct answer from professor and student's answer to respond to student's query\n Query:{query}"
 
-        response = model.getModelResponse(memory_prompt, user_prompt)
+        response = model.queryResponse(memory_prompt, user_prompt)
         # percentage = h.extract_percentage(response)
 
-        return JSONResponse(content={"Suggestion": response.suggestion, "Correctness Score": response.correctness_score})
+        return JSONResponse(content={"Response":response.content})

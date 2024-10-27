@@ -68,3 +68,25 @@ def getModelResponse(memory_prompt,user_prompt):
     }
     )
     return output
+
+def queryResponse(memory_prompt,user_prompt):
+
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            (
+                "system",
+                "{system}",
+            ),
+            ("human", "{user}"),
+        ]
+    )
+
+    chain = prompt | llm
+    output = chain.invoke(
+        {
+            "system": memory_prompt,
+            "user" : user_prompt
+
+    }
+    )
+    return output
