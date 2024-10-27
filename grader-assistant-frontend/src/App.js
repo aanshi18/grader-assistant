@@ -16,6 +16,7 @@ function App() {
   const [isPopupOpen, setIsPopupOpen] = useState(false); // Popup state
   const [query, setQuery] = useState(''); // Query state
   const [currentQuestionId, setCurrentQuestionId] = useState(null); // Track the current question ID
+  const [queryResponse, setQueryResponse] = useState('');
   var popuprequestedby = -1;
 
   // Handle input changes (for each textarea)
@@ -23,10 +24,24 @@ function App() {
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handlePopupSubmit = (e) => {
+  const handlePopupSubmit = async (e) => {
     e.preventDefault();
     console.log('Query submitted:', query); // Handle query submission logic
+    // Make API call for the query
+    try {
+      setError(null)
+      const res = await axios.post('http://localhost:8000/ask_query', {
+        question: questions[currentQuestionId],
+        query: query,
+      });
+      setQueryResponse(res.data.Response); // Store the response from the API
+    } catch (err) {
+      setError('Failed to submit your query. Please try again.');
+    }
+
     setIsPopupOpen(false); // Close popup after submission
+    setQuery(''); // Reset query field
+
   };
 
   const openPopup = (id) => {
@@ -50,7 +65,7 @@ function App() {
             "question":question,
             "student_answer":student_answer,
           });
-          return { id, answer: res.data.message}; // Return the response for this question
+          return { id, answer: "Suggestion: " + res.data.suggestion+'\n' + "Score: "+res.data.correctness_score +'\n'+ "Ai Generated Probability: "+ res.data.ai_generated_prob}; // Return the response for this question
         } catch (err) {
           return { id, error: 'Failed to get response. Please try again.' , err}; // Handle API error
         }
@@ -71,8 +86,9 @@ function App() {
   };
   // Helper function to safely render HTML
   const formatResponse = (response) => ({
-    __html: response.replace(/\n/g, ' '), // Replace \n with space for extra safety
+    __html: response.replace(/\n/g, '<br />'), // Replace \n with <br /> for proper line breaks
   });
+  
 
   return (
     <div style={{ maxWidth: '600px', margin: '50px 50px', textAlign: 'left' }}>
@@ -139,6 +155,29 @@ function App() {
           <strong>{error}</strong>
         </div>
       )}
+
+      {/* Right Side for Query Responses */}
+      <div style={{ 
+        flex: '1',
+        padding: '20px',
+        borderLeft: '1px solid #ddd',
+        position: 'fixed', // Fixes the position
+        top: '0', // Aligns to the top of the viewport
+        right: '0', // Aligns to the right
+        width: '50%', // Takes half of the screen width
+        height: '100%', // Full height
+        overflowY: 'auto', // Enables scrolling if content overflows
+        backgroundColor: '#fff', // Optional: background color for better visibility
+        paddingTop: '80px', // Prevents overlap with fixed header if any
+       }}>
+        <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Query Response</h2>
+        {queryResponse && (
+          <div style={{ background: '#f8f9fa', padding: '10px', borderRadius: '5px' }}>
+            <strong>Response:</strong>
+            <div dangerouslySetInnerHTML={formatResponse(queryResponse)} />
+          </div>
+        )}
+      </div>
 
       {/* Popup Modal */}
       {isPopupOpen && (

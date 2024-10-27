@@ -33,7 +33,9 @@ def checkPlagiarism(answer):
     res = conn.getresponse()
     
     data = res.read()
+    print(data)
     data_str = data.decode("utf-8")
     data_dict = json.loads(data_str)
+
 
     return data_dict['documents'][0]['completely_generated_prob']

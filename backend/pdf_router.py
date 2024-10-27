@@ -43,8 +43,8 @@ async def EvaluateAnswer(request: Request):
         response = model.getModelResponse(memory_prompt, user_prompt)
         # percentage = h.extract_percentage(response)
 
-        plagiarism = h.checkPlagiarism(student_answer)
-
+        # plagiarism = h.checkPlagiarism(student_answer)
+        plagiarism = 0.5
         return JSONResponse(content={"suggestion": response.suggestion, "correctness_score": response.correctness_score, "ai_generated_prob":plagiarism})
 
 @router.post("/ask_query")
