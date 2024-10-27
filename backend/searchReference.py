@@ -2,7 +2,7 @@
 data = []
 
 # Open the raw text file
-with open("backend/transcript.txt", "r") as file:
+with open("transcript.txt", "r") as file:
     # Loop over each line in the file
     for idx, line in enumerate(file, start=1):
         # Split the line into timestamp and text based on the first tab or space

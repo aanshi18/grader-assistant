@@ -65,7 +65,7 @@ function App() {
             "question":question,
             "student_answer":student_answer,
           });
-          return { id, answer: "Suggestion: " + res.data.suggestion+'\n' + "Score: "+res.data.correctness_score +'\n'+ "Ai Generated Probability: "+ res.data.ai_generated_prob}; // Return the response for this question
+          return { id, answer: "Suggestion: " + res.data.suggestion+'\n' + "Reference video: https://www.youtube.com/watch?v=SiBw7os-_zI Timestamp: "+  res.data.timestamp + "\n" + "Score: "+res.data.correctness_score +'\n'+ "Ai Generated Probability: "+ res.data.ai_generated_prob}; // Return the response for this question
         } catch (err) {
           return { id, error: 'Failed to get response. Please try again.' , err}; // Handle API error
         }

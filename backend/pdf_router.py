@@ -43,17 +43,10 @@ async def EvaluateAnswer(request: Request):
 
         response = model.getModelResponse(memory_prompt, user_prompt)
         # percentage = h.extract_percentage(response)
-
-<<<<<<< HEAD
-        # plagiarism = h.checkPlagiarism(student_answer)
-        plagiarism = 0.5
-        return JSONResponse(content={"suggestion": response.suggestion, "correctness_score": response.correctness_score, "ai_generated_prob":plagiarism})
-=======
         plagiarism = 0.5#h.checkPlagiarism(student_answer)
         references = getReferences(answer_key[question])
 
         return JSONResponse(content={"suggestion": response.suggestion, "correctness_score": response.correctness_score, "ai_generated_prob":plagiarism, "timestamp":references})
->>>>>>> 9eb325608b43b20cc118eff1acd57a99d13e3aff
 
 @router.post("/ask_query")
 async def AskQuery(request: Request):
