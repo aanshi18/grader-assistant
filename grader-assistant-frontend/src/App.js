@@ -4,9 +4,9 @@ import axios from 'axios';
 
 // Sample questions (you can also fetch this from an API if needed)
 const questions = {
-  "123": "What is a class and an object?",
+  "123": "What is Object-Oriented Programming (OOP)?",
   "3223": "What is a class and an object?",
-  "764": "What is a class and an object?"
+  "764": "What is encapsulation in OOP?"
 };
 
 function App() {
@@ -17,6 +17,7 @@ function App() {
   const [query, setQuery] = useState(''); // Query state
   const [currentQuestionId, setCurrentQuestionId] = useState(null); // Track the current question ID
   const [queryResponse, setQueryResponse] = useState('');
+  const [loading, setLoading] = useState(false)
   var popuprequestedby = -1;
 
   // Handle input changes (for each textarea)
@@ -65,7 +66,7 @@ function App() {
             "question":question,
             "student_answer":student_answer,
           });
-          return { id, answer: "Suggestion: " + res.data.suggestion+'\n' + "Reference video: https://www.youtube.com/watch?v=SiBw7os-_zI Timestamp: "+  res.data.timestamp + "\n" + "Score: "+res.data.correctness_score +'\n'+ "Ai Generated Probability: "+ res.data.ai_generated_prob}; // Return the response for this question
+          return { id, answer: "<b>Score: </b>"+res.data.correctness_score +'\n' + "<b>Suggestion: </b>" + res.data.suggestion+'\n' + "<b>Reference video:</b> https://www.youtube.com/watch?v=SiBw7os-_zI Timestamp: "+  res.data.timestamp + "\n" + "<b>Ai Generated Probability: </b>"+ res.data.ai_generated_prob}; // Return the response for this question
         } catch (err) {
           return { id, error: 'Failed to get response. Please try again.' , err}; // Handle API error
         }
@@ -91,7 +92,7 @@ function App() {
   
 
   return (
-    <div style={{ maxWidth: '600px', margin: '50px 50px', textAlign: 'left' }}>
+    <div style={{ maxWidth: '700px', margin: '50px 50px', textAlign: 'left' }}>
       <h2>Questionnaire</h2>
       <form onSubmit={handleSubmit}>
         {Object.entries(questions).map(([id, question]) => (
@@ -102,6 +103,7 @@ function App() {
               <strong>{question}</strong>
             </label>
             <textarea
+            disabled={responses[id]}
               rows="4"
               style={{
                 width: '100%',
@@ -157,7 +159,7 @@ function App() {
       )}
 
       {/* Right Side for Query Responses */}
-      <div style={{ 
+      {queryResponse && (<div style={{ 
         flex: '1',
         padding: '20px',
         borderLeft: '1px solid #ddd',
@@ -168,16 +170,19 @@ function App() {
         height: '100%', // Full height
         overflowY: 'auto', // Enables scrolling if content overflows
         backgroundColor: '#fff', // Optional: background color for better visibility
-        paddingTop: '80px', // Prevents overlap with fixed header if any
+        paddingBottom: '80px'
        }}>
         <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Query Response</h2>
         {queryResponse && (
           <div style={{ background: '#f8f9fa', padding: '10px', borderRadius: '5px' }}>
             <strong>Response:</strong>
             <div dangerouslySetInnerHTML={formatResponse(queryResponse)} />
+            <br></br>
+            <br></br>
           </div>
         )}
-      </div>
+      </div>)
+    }
 
       {/* Popup Modal */}
       {isPopupOpen && (

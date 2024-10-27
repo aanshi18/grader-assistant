@@ -1,4 +1,10 @@
 answer_key = {
+      "What is Object-Oriented Programming (OOP)?" : 
+      "Object-Oriented Programming (OOP) is a programming paradigm based on the concept of objects, which are instances of classes. In OOP, objects are used to represent real-world entities, each containing data (attributes) and behaviors (methods) related to that entity. OOP promotes principles like encapsulation, inheritance, and polymorphism, which help in organizing code, making it more modular, reusable, and easier to maintain. OOP languages, such as Python, Java, and C++, allow developers to structure programs in a way that mirrors real-world interactions, enabling more intuitive and scalable software development.",
+
       "What is a class and an object?":
-      "A class is a blueprint that defines the properties and methods for an object. An object is an instance of a class, representing a specific entity with real data."
+      "A class is a blueprint or template used in OOP to define the attributes (data) and methods (functions) that the objects created from the class will have. For example, if we have a class called Car, it might include attributes like color and model and methods like drive() and brake(). An object is an instance of a class, representing a specific entity with actual data. For example, an object of the Car class could be a particular car like a red Toyota Corolla. In OOP, classes help create objects with similar attributes and behaviors, making code organized and reusable.",
+
+      "What is encapsulation in OOP?":
+      "Encapsulation is an OOP principle that involves bundling the data (attributes) and methods (behaviors) of an object into a single unit or class, while restricting direct access to some of an object's components. This is often done using access modifiers (such as private, protected, and public) to control visibility and safeguard data. For example, in a BankAccount class, a user may be able to view their balance through a method like getBalance(), but they cannot directly modify the balance attribute, preserving the integrity and security of the data. Encapsulation promotes modularity, protects data, and allows for controlled interaction with an object's attributes and methods."
 }
