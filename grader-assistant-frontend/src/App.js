@@ -84,7 +84,7 @@ function App() {
               required
             />
             {responses[id] && (
-              <div style={{ marginTop: '10px' }}>
+              <div style={{ width: '100%', marginTop: '10px', border: 'solid', borderColor: 'green', backgroundColor: 'rgba(51, 170, 51, .1)', borderRadius:'5px', padding: '5px 5px 5px 5px' }}>
                 <strong>Response:</strong>
                 <div dangerouslySetInnerHTML={formatResponse(responses[id])} />
                 <button type='button' style={{
