@@ -1,5 +1,7 @@
 import fitz 
 import re
+import json
+import http
 
 # Helper function to extract text from PDF
 def extract_text_from_pdf(pdf_file):
@@ -17,3 +19,21 @@ def extract_percentage(response_message: str):
         return float(match.group(1))
     else:
         return None
+    
+def checkPlagiarism(answer):
+    conn = http.client.HTTPSConnection("api.gptzero.me")
+    payload = json.dumps({
+    "document": answer,
+    "multilingual": False
+    })
+    headers = {
+    'Content-Type': 'application/json'
+    }
+    conn.request("POST", "/v2/predict/text", payload, headers)
+    res = conn.getresponse()
+    
+    data = res.read()
+    data_str = data.decode("utf-8")
+    data_dict = json.loads(data_str)
+
+    return data_dict['documents'][0]['completely_generated_prob']
