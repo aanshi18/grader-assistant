@@ -39,13 +39,14 @@ async def EvaluateAnswer(request: Request):
 
         memory_prompt = "Be my assistant evaluator. I am a teacher and need to evaluate student answers. I will give you a pdf, remember that. All the further questions asked will be based on the content of that PDF. Furthermore I will give you the question, tentative answer for the question and the answer given by the student to that question. You need to compare the content of both the answers and then provide me with similarity result of how much similar the student answer is to the answer which I gave. Based on this result, I will evaluate how much marks I need to give to a student.\n" + f"Here is the pdf content:\n{memory}\n" 
 
-        user_prompt = f"This is the input question and correct answer from the professor:\n{question}\n{answer_key[question]}\n" + """Provide me with answer of similarity result in the following format:
-        Similarity percentage (in a range of 0-100%): Do not generate anything else.""" + f"Student answer: {student_answer}"
+        user_prompt = f"This is the input question and correct answer from the professor:\n{question}\n{answer_key[question]}\n" + """Strictly provide me with answer of similarity result in the following format:
+        Correctness score (in a range of 0-1).
+         Suggestion: 2 lines suggestion to student to perform better.""" + f"Student answer: {student_answer}"
 
         response = model.getModelResponse(memory_prompt, user_prompt)
-        percentage = h.extract_percentage(response)
+        # percentage = h.extract_percentage(response)
 
-        return JSONResponse(content={"message": response, "Percentage": percentage})
+        return JSONResponse(content={"Suggestion": response.suggestion, "Correctness Score": response.correctness_score})
 
 @router.post("/check_plagrism")
 async def checkPlagrism(request: Request):
