@@ -13,11 +13,27 @@ function App() {
   const [formData, setFormData] = useState({});
   const [responses, setResponses] = useState({});
   const [error, setError] = useState(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false); // Popup state
+  const [query, setQuery] = useState(''); // Query state
+  const [currentQuestionId, setCurrentQuestionId] = useState(null); // Track the current question ID
+  var popuprequestedby = -1;
 
   // Handle input changes (for each textarea)
   const handleChange = (id, value) => {
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
+
+  const handlePopupSubmit = (e) => {
+    e.preventDefault();
+    console.log('Query submitted:', query); // Handle query submission logic
+    setIsPopupOpen(false); // Close popup after submission
+  };
+
+  const openPopup = (id) => {
+    setCurrentQuestionId(id); // Set the current question ID
+    setIsPopupOpen(true);
+  };;
+  const closePopup = () => setIsPopupOpen(false);
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -97,6 +113,7 @@ function App() {
                     cursor: 'pointer',
                     float: 'right',
                   }}
+                  onClick={() => openPopup(id)}
 >Ask a query</button>
               </div>
             )}
@@ -120,6 +137,80 @@ function App() {
       {error && (
         <div style={{ marginTop: '20px', color: 'red' }}>
           <strong>{error}</strong>
+        </div>
+      )}
+
+      {/* Popup Modal */}
+      {isPopupOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '0',
+            left: '0',
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: '#fff',
+              padding: '20px',
+              borderRadius: '10px',
+              width: '400px',
+              boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+            }}
+          >
+            <h4 style={{ marginBottom: '15px' }}>Ask a Query</h4>
+            <form onSubmit={handlePopupSubmit}>
+              <textarea
+                rows="4"
+                style={{
+                  width: '95%',
+                  marginBottom: '10px',
+                  padding: '10px',
+                  border: '1px solid #ddd',
+                  borderRadius: '5px',
+                  fontSize: '16px',
+                }}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                required
+              />
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <button
+                  type="button"
+                  style={{
+                    backgroundColor: '#6c757d',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '5px',
+                    padding: '8px 12px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={closePopup}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  style={{
+                    backgroundColor: '#28a745',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '5px',
+                    padding: '8px 12px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Submit Query
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       )}
     </div>
