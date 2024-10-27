@@ -1,13 +1,14 @@
-# Assess.io
+# Assess.AI
 
-Assess.io is an AI-powered academic assessment platform designed to streamline the grading process, allowing graders and TAs to focus on student engagement. 
+Assess.AI is an AI-powered academic assessment platform designed to streamline the grading process, allowing graders and TAs to focus on student engagement. 
 
 ## Acknowledgements
+- Arizona State University
 - SoDA Club
 - SoDAhacks Sponsors
 
 ## Project Overview 📖
-Assess.io automates the assessment process in educational settings, using a combination of natural language processing, embedding-based similarity scoring, and AI detection for academic integrity. The platform offers real-time feedback, suggestions for student improvement, and references to course resources, reducing the workload on graders and TAs.
+Assess.AI automates the assessment process in educational settings, using a combination of natural language processing, embedding-based similarity scoring, and AI detection for academic integrity. The platform offers real-time feedback, suggestions for student improvement, and references to course resources, reducing the workload on graders and TAs.
 
 ## Key Features 🌟
 - Automated Similarity Evaluation: Compares student responses to ideal answers and scores them on a scale of 0-1.
@@ -16,10 +17,6 @@ Assess.io automates the assessment process in educational settings, using a comb
 - Video Timestamp References: Directs students to relevant lecture segments based on the question.
 - Query Assistance: Enables students to submit specific questions for additional support from graders or TAs.
 
-## Demo Image 🚀
-
-#TODO
-<!-- Replace `frontend-image.png` with the actual file name or path -->
 
 ## How It Works ⚙️ 
 - Course Material Upload: Faculty uploads digital course materials, which are parsed and stored in the backend.
@@ -78,11 +75,11 @@ GPTZERO_API_KEY=<your_gptzero_api_key>
 
 ## Contribution
 
-Current contributors: [Sreekar Gadasu](https://github.com/sr33kar) | Shrey Malvi | Yash Gandhi | [Aanshi Patwari](https://github.com/aanshi18)
+Current contributors: [Sreekar Gadasu](https://github.com/sr33kar) | [Shrey Malvi](https://github.com/malvishrey) | [Yash Gandhi](https://github.com/YashGandhi17) | [Aanshi Patwari](https://github.com/aanshi18)
 
 # 
 
-Feel free to reach out to any contributors if you have any questions or feedback. Happy learning with Assess.io! 🎉
+Feel free to reach out to any contributors if you have any questions or feedback. Happy learning with Assess.AI! 🎉
 
 
 
