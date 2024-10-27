@@ -1,61 +1,16 @@
-# main.py
-from fastapi import FastAPI, Form
-from fastapi.responses import HTMLResponse
-from pydantic import BaseModel
+from fastapi import FastAPI
+from pdf_router import router as pdf_router
+import httpx
 
 app = FastAPI()
 
-# HTML form
-@app.get("/", response_class=HTMLResponse)
-async def homepage():
-    return """
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>FastAPI Form</title>
-    </head>
-    <body>
-        <h2>Submit Text to API</h2>
-        <form id="textForm">
-            <textarea id="userInput" placeholder="Enter text" required ></textarea>
-            <button type="submit">Submit</button>
-        </form>
-        <p id="responseMessage"></p>
+app.include_router(pdf_router)
 
-        <script>
-            const form = document.getElementById('textForm');
-            const responseMessage = document.getElementById('responseMessage');
+# Run the server with Uvicorn
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000) 
 
-            form.addEventListener('submit', async (event) => {
-                event.preventDefault();  // Prevent page reload
-
-                const userInput = document.getElementById('userInput').value;
-
-                try {
-                    const response = await fetch('/submit', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ text: userInput }),
-                    });
-
-                    const result = await response.json();
-                    responseMessage.textContent = `Response: ${result.message}`;
-                } catch (error) {
-                    responseMessage.textContent = 'Error: Failed to submit text!';
-                }
-            });
-        </script>
-    </body>
-    </html>
-    """
-
-class TextInput(BaseModel):
-    text: str
-
-@app.post("/submit")
-async def submit_text(data: TextInput):
-    return {"message": f"You submitted: {data.text}"}
+    url = "http://localhost:8000/upload_pdf" 
+    with httpx.Client() as client:
+        response = client.post(url)  
