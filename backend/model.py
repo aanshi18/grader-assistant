@@ -11,7 +11,7 @@ class MyModel(BaseModel):
 from langchain_groq import ChatGroq
 
 llm = ChatGroq(
-    model="mixtral-8x7b-32768",
+    model="llama-3.1-70b-versatile",
     temperature=0,
     max_tokens=None,
     timeout=None,
